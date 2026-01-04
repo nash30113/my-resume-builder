@@ -5,6 +5,8 @@ import { PersonalInfoForm } from './components/PersonalInfoForm';
 import { WorkExperienceForm } from './components/WorkExperienceForm';
 import { EducationForm } from './components/EducationForm';
 import { SkillsForm } from './components/SkillsForm';
+import { LanguagesForm } from './components/LanguagesForm';
+import { SocialLinksForm } from './components/SocialLinksForm';
 import { ResumePreview } from './components/ResumePreview';
 import { PdfExportButton } from './components/PdfExportButton';
 import './App.css';
@@ -28,6 +30,12 @@ function App() {
     addSkill,
     updateSkill,
     removeSkill,
+    addLanguage,
+    updateLanguage,
+    removeLanguage,
+    addSocialLink,
+    updateSocialLink,
+    removeSocialLink,
   } = useResumeForm();
 
   return (
@@ -68,6 +76,20 @@ function App() {
                 onAdd={addSkill}
                 onUpdate={updateSkill}
                 onRemove={removeSkill}
+              />
+
+              <LanguagesForm
+                data={resumeData.languages}
+                onAdd={addLanguage}
+                onUpdate={updateLanguage}
+                onRemove={removeLanguage}
+              />
+
+              <SocialLinksForm
+                data={resumeData.socialLinks}
+                onAdd={addSocialLink}
+                onUpdate={updateSocialLink}
+                onRemove={removeSocialLink}
               />
             </div>
           </section>

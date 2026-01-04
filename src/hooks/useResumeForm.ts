@@ -5,12 +5,16 @@ import type {
     WorkExperience,
     Education,
     Skill,
+    Language,
+    SocialLink,
 } from '../types/resume';
 import {
     createEmptyResumeData,
     createEmptyWorkExperience,
     createEmptyEducation,
     createEmptySkill,
+    createEmptyLanguage,
+    createEmptySocialLink,
 } from '../types/resume';
 import { dummyResumeData } from '../data/dummyData';
 
@@ -129,6 +133,70 @@ export function useResumeForm() {
     }, []);
 
     /**
+     * 新增語言能力
+     */
+    const addLanguage = useCallback(() => {
+        setResumeData((prev) => ({
+            ...prev,
+            languages: [...prev.languages, createEmptyLanguage()],
+        }));
+    }, []);
+
+    /**
+     * 更新語言能力
+     */
+    const updateLanguage = useCallback((id: string, data: Partial<Language>) => {
+        setResumeData((prev) => ({
+            ...prev,
+            languages: prev.languages.map((lang) =>
+                lang.id === id ? { ...lang, ...data } : lang
+            ),
+        }));
+    }, []);
+
+    /**
+     * 刪除語言能力
+     */
+    const removeLanguage = useCallback((id: string) => {
+        setResumeData((prev) => ({
+            ...prev,
+            languages: prev.languages.filter((lang) => lang.id !== id),
+        }));
+    }, []);
+
+    /**
+     * 新增社群連結
+     */
+    const addSocialLink = useCallback(() => {
+        setResumeData((prev) => ({
+            ...prev,
+            socialLinks: [...prev.socialLinks, createEmptySocialLink()],
+        }));
+    }, []);
+
+    /**
+     * 更新社群連結
+     */
+    const updateSocialLink = useCallback((id: string, data: Partial<SocialLink>) => {
+        setResumeData((prev) => ({
+            ...prev,
+            socialLinks: prev.socialLinks.map((link) =>
+                link.id === id ? { ...link, ...data } : link
+            ),
+        }));
+    }, []);
+
+    /**
+     * 刪除社群連結
+     */
+    const removeSocialLink = useCallback((id: string) => {
+        setResumeData((prev) => ({
+            ...prev,
+            socialLinks: prev.socialLinks.filter((link) => link.id !== id),
+        }));
+    }, []);
+
+    /**
      * 重置所有資料
      */
     const resetForm = useCallback(() => {
@@ -147,6 +215,12 @@ export function useResumeForm() {
         addSkill,
         updateSkill,
         removeSkill,
+        addLanguage,
+        updateLanguage,
+        removeLanguage,
+        addSocialLink,
+        updateSocialLink,
+        removeSocialLink,
         resetForm,
     };
 }
