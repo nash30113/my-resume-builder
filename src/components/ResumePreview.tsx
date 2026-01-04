@@ -1,4 +1,4 @@
-import type { ResumeData, Skill, Language } from '../types/resume';
+import type { ResumeData } from '../types/resume';
 import './ResumePreview.css';
 
 interface ResumePreviewProps {
