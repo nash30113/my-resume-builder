@@ -123,7 +123,7 @@ export function ResumePreview({ data, previewRef }: ResumePreviewProps) {
 
     return (
         <div className="preview-container">
-            <div className="preview-paper" ref={previewRef}>
+            <div className="preview-paper" id="resume-content" ref={previewRef}>
                 {!hasContent ? (
                     <div className="preview-empty">
                         <div className="preview-empty-icon">📝</div>

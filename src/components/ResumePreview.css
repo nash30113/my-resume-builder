@@ -2,7 +2,7 @@
  * 履歷預覽樣式
  * 專業雙欄式履歷設計 - 左窄右寬佈局
  * 字體：思源黑體 (Noto Sans TC)
- * NOTE: 優化為單頁 A4 輸出，減少間距並調整字體大小
+ * NOTE: 優化為單頁 A4 輸出，固定寬度確保 PDF 擷取時維持橫向兩欄
  */
 
 /* 匯入 Google Fonts - 思源黑體 */
@@ -18,11 +18,13 @@
     justify-content: center;
 }
 
+/* NOTE: 固定 A4 尺寸，確保 html2canvas 擷取時維持桌面版佈局 */
 .preview-paper {
     background: white;
-    width: 210mm;
+    width: 210mm !important;
+    min-width: 210mm !important;
+    max-width: 210mm !important;
     height: 297mm;
-    max-width: 210mm;
     max-height: 297mm;
     box-shadow: var(--shadow-lg);
     border-radius: var(--radius-sm);
@@ -63,21 +65,43 @@
 }
 
 /* ===== 雙欄式主體佈局 ===== */
+/* NOTE: 強制橫向排列，禁止垂直堆疊 */
 .resume-layout {
-    display: flex;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
     height: 297mm;
+    width: 100%;
     overflow: hidden;
 }
 
 /* ===== 左側深色欄位 ===== */
 .resume-sidebar {
-    flex: 0 0 30%;
+    flex: 0 0 30% !important;
+    width: 30% !important;
+    min-width: 30% !important;
+    max-width: 30% !important;
     background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
     color: #f1f5f9;
     padding: 1.25rem 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.875rem;
+    box-sizing: border-box;
+}
+
+/* ===== 右側主內容區 ===== */
+.resume-main {
+    flex: 1 1 70% !important;
+    width: 70% !important;
+    min-width: 70% !important;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: white;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 /* 照片區塊 */
@@ -204,17 +228,6 @@
     letter-spacing: 0.05em;
 }
 
-/* ===== 右側主內容區 ===== */
-.resume-main {
-    flex: 1;
-    padding: 1.25rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    background: white;
-    overflow: hidden;
-}
-
 /* 頂部區域 - 姓名與簡介 */
 .resume-header {
     padding-bottom: 0.625rem;
@@ -279,6 +292,7 @@
 
 .experience-header {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
     gap: 0.75rem;
@@ -354,6 +368,7 @@
 
 .education-header {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
     gap: 0.75rem;
@@ -394,20 +409,28 @@
 
     .preview-paper {
         box-shadow: none;
-        width: 210mm;
-        height: 297mm;
-        max-width: none;
-        max-height: none;
+        width: 210mm !important;
+        height: 297mm !important;
     }
 
     .resume-layout {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
         height: 297mm;
     }
 
     .resume-sidebar {
+        flex: 0 0 30% !important;
+        width: 30% !important;
         background: #1e293b !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
+    }
+
+    .resume-main {
+        flex: 1 1 70% !important;
+        width: 70% !important;
     }
 
     .skill-tag {
@@ -436,26 +459,34 @@
 }
 
 /* ===== 小螢幕響應式設計 ===== */
-@media (max-width: 680px) {
+/* NOTE: 只在螢幕顯示時堆疊，PDF 擷取時會使用固定寬度 */
+@media screen and (max-width: 680px) {
     .preview-paper {
         width: 100%;
+        min-width: unset;
+        max-width: unset;
         height: auto;
         min-height: auto;
         max-height: none;
     }
 
     .resume-layout {
-        flex-direction: column;
+        flex-direction: column !important;
         height: auto;
     }
 
     .resume-sidebar {
-        flex: none;
-        width: 100%;
+        flex: none !important;
+        width: 100% !important;
+        min-width: unset !important;
+        max-width: unset !important;
         padding: 1.25rem;
     }
 
     .resume-main {
+        flex: none !important;
+        width: 100% !important;
+        min-width: unset !important;
         padding: 1.25rem;
     }
 

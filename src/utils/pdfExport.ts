@@ -4,7 +4,7 @@ import { jsPDF } from 'jspdf';
 /**
  * PDF 匯出工具函式
  * 將 HTML 元素轉換為 PDF 並下載
- * NOTE: 優化為單頁 A4 輸出，無邊距填滿
+ * NOTE: 固定 A4 寬度（794px @ 96 DPI）確保橫向兩欄佈局不會跑版
  */
 
 /**
@@ -16,14 +16,16 @@ interface ExportOptions {
 }
 
 /**
- * A4 紙張尺寸常數 (mm)
+ * A4 紙張尺寸常數
  */
 const A4_WIDTH_MM = 210;
 const A4_HEIGHT_MM = 297;
+const A4_WIDTH_PX = 794;  // A4 寬度在 96 DPI 下的像素值
+const A4_HEIGHT_PX = 1123; // A4 高度在 96 DPI 下的像素值
 
 /**
  * 將指定的 HTML 元素匯出為 PDF
- * NOTE: 優化為 100% 填滿 A4 頁面，無多餘白邊
+ * NOTE: 固定 windowWidth 為 794px 確保桌面版佈局
  * @param element 要轉換的 HTML 元素
  * @param options 匯出選項
  */
@@ -33,42 +35,25 @@ export async function exportToPdf(
 ): Promise<void> {
     const {
         filename = '履歷表.pdf',
-        scale = 3, // 提高至 3 倍以確保高清晰度
+        scale = 2,
     } = options;
 
     try {
-        // NOTE: 暫時設定元素為固定 A4 尺寸以確保擷取正確
-        const originalStyle = {
-            width: element.style.width,
-            height: element.style.height,
-            overflow: element.style.overflow,
-        };
-
-        // 強制設定為 A4 尺寸
-        element.style.width = `${A4_WIDTH_MM}mm`;
-        element.style.height = `${A4_HEIGHT_MM}mm`;
-        element.style.overflow = 'hidden';
-
         // NOTE: 使用 html2canvas 將 HTML 元素轉換為 Canvas
+        // 設定固定寬度確保維持桌面版兩欄佈局
         const canvas = await html2canvas(element, {
             scale,
             useCORS: true,
             allowTaint: true,
             backgroundColor: '#ffffff',
             logging: false,
-            // 設定擷取尺寸與 A4 比例匹配
-            width: element.scrollWidth,
-            height: element.scrollHeight,
-            windowWidth: element.scrollWidth,
-            windowHeight: element.scrollHeight,
+            width: A4_WIDTH_PX,
+            height: A4_HEIGHT_PX,
+            windowWidth: A4_WIDTH_PX,
+            windowHeight: A4_HEIGHT_PX,
         });
 
-        // 還原原始樣式
-        element.style.width = originalStyle.width;
-        element.style.height = originalStyle.height;
-        element.style.overflow = originalStyle.overflow;
-
-        const imgData = canvas.toDataURL('image/jpeg', 0.95);
+        const imgData = canvas.toDataURL('image/png');
 
         // NOTE: 建立 PDF 文件，設定為 A4 尺寸
         const pdf = new jsPDF({
@@ -81,11 +66,11 @@ export async function exportToPdf(
         // NOTE: 100% 填滿 A4 頁面，無邊距
         pdf.addImage(
             imgData,
-            'JPEG',
+            'PNG',
             0,           // X 座標：從左邊緣開始
             0,           // Y 座標：從上邊緣開始
-            A4_WIDTH_MM, // 寬度：完整 A4 寬度
-            A4_HEIGHT_MM // 高度：完整 A4 高度
+            A4_WIDTH_MM, // 寬度：完整 A4 寬度 (210mm)
+            A4_HEIGHT_MM // 高度：完整 A4 高度 (297mm)
         );
 
         // NOTE: 下載 PDF 檔案
