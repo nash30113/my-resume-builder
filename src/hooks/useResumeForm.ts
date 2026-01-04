@@ -12,13 +12,15 @@ import {
     createEmptyEducation,
     createEmptySkill,
 } from '../types/resume';
+import { dummyResumeData } from '../data/dummyData';
 
 /**
  * 履歷表單狀態管理 Hook
  * 提供履歷資料的狀態管理與各種操作方法
+ * NOTE: 預設載入範例資料以展示完整排版效果
  */
 export function useResumeForm() {
-    const [resumeData, setResumeData] = useState<ResumeData>(createEmptyResumeData());
+    const [resumeData, setResumeData] = useState<ResumeData>(dummyResumeData);
 
     /**
      * 更新個人資訊
