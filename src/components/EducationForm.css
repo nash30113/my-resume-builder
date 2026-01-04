@@ -1,0 +1,33 @@
+.education-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.education-item {
+    background: var(--color-background);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    border: 1px solid var(--color-border);
+    transition: border-color var(--transition-fast);
+}
+
+.education-item:hover {
+    border-color: var(--color-primary-light);
+}
+
+.education-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.education-number {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-success);
+    background: var(--color-success-light);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-full);
+}
