@@ -8,6 +8,8 @@
  */
 export interface PersonalInfo {
   fullName: string;
+  /** 專業職稱 */
+  jobTitle: string;
   email: string;
   phone: string;
   address: string;
@@ -49,6 +51,25 @@ export interface Skill {
 }
 
 /**
+ * 語言能力
+ */
+export interface Language {
+  id: string;
+  name: string;
+  level: number; // 1-5 熟練度等級
+}
+
+/**
+ * 社群連結
+ */
+export interface SocialLink {
+  id: string;
+  type: 'github' | 'linkedin' | 'website' | 'other';
+  url: string;
+  label?: string;
+}
+
+/**
  * 完整履歷資料
  */
 export interface ResumeData {
@@ -56,6 +77,8 @@ export interface ResumeData {
   workExperiences: WorkExperience[];
   educations: Education[];
   skills: Skill[];
+  languages: Language[];
+  socialLinks: SocialLink[];
 }
 
 /**
@@ -63,6 +86,7 @@ export interface ResumeData {
  */
 export const createEmptyPersonalInfo = (): PersonalInfo => ({
   fullName: '',
+  jobTitle: '',
   email: '',
   phone: '',
   address: '',
@@ -102,6 +126,24 @@ export const createEmptySkill = (): Skill => ({
 });
 
 /**
+ * 建立空白的語言能力
+ */
+export const createEmptyLanguage = (): Language => ({
+  id: crypto.randomUUID(),
+  name: '',
+  level: 3,
+});
+
+/**
+ * 建立空白的社群連結
+ */
+export const createEmptySocialLink = (): SocialLink => ({
+  id: crypto.randomUUID(),
+  type: 'other',
+  url: '',
+});
+
+/**
  * 建立空白的履歷資料
  */
 export const createEmptyResumeData = (): ResumeData => ({
@@ -109,4 +151,6 @@ export const createEmptyResumeData = (): ResumeData => ({
   workExperiences: [],
   educations: [],
   skills: [],
+  languages: [],
+  socialLinks: [],
 });

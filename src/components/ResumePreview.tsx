@@ -1,4 +1,4 @@
-import type { ResumeData, Skill } from '../types/resume';
+import type { ResumeData, Skill, Language } from '../types/resume';
 import './ResumePreview.css';
 
 interface ResumePreviewProps {
@@ -46,16 +46,40 @@ const Icons = {
             <path d="M21 8V7l-3 2-3-2v1l3 2 3-2zm1-5H2C.9 3 0 3.9 0 5v14c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM8 6c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm6 12H2v-1c0-2 4-3.1 6-3.1s6 1.1 6 3.1v1zm8-6h-8V6h8v6z" />
         </svg>
     ),
+    language: (
+        <svg viewBox="0 0 24 24" fill="currentColor" className="section-icon-lg">
+            <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z" />
+        </svg>
+    ),
+    link: (
+        <svg viewBox="0 0 24 24" fill="currentColor" className="section-icon-lg">
+            <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z" />
+        </svg>
+    ),
+    github: (
+        <svg viewBox="0 0 24 24" fill="currentColor" className="link-icon">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+        </svg>
+    ),
+    linkedin: (
+        <svg viewBox="0 0 24 24" fill="currentColor" className="link-icon">
+            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+        </svg>
+    ),
+    website: (
+        <svg viewBox="0 0 24 24" fill="currentColor" className="link-icon">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+        </svg>
+    ),
 };
 
 /**
  * 履歷預覽元件
- * 呈現專業的雙欄式履歷排版樣式
- * 左側深色背景放置照片、聯絡資訊與技能
- * 右側放置個人簡介、工作經歷與教育背景
+ * 左側深色欄位包含：照片、職稱、簡介、聯絡資訊、技能、語言、社群連結、教育背景
+ * 右側白色區域僅顯示工作經歷
  */
 export function ResumePreview({ data, previewRef }: ResumePreviewProps) {
-    const { personalInfo, workExperiences, educations, skills } = data;
+    const { personalInfo, workExperiences, educations, skills, languages, socialLinks } = data;
 
     /**
      * 格式化日期顯示
@@ -81,19 +105,16 @@ export function ResumePreview({ data, previewRef }: ResumePreviewProps) {
     };
 
     /**
-     * 依技能評分排序（高到低）
-     * NOTE: 評分最高的技能會顯示在最上方
+     * 依評分排序（高到低）
      */
-    const sortSkillsByLevel = (skillList: Skill[]): Skill[] => {
-        return [...skillList].sort((a, b) => b.level - a.level);
+    const sortByLevel = <T extends { level: number }>(items: T[]): T[] => {
+        return [...items].sort((a, b) => b.level - a.level);
     };
 
     /**
      * 高亮量化成就（數字與百分比）
-     * NOTE: 自動偵測文字中的數字與百分比並加上強調樣式
      */
     const highlightQuantifiedResults = (text: string): React.ReactNode => {
-        // 匹配數字（含逗號）與百分比
         const regex = /(\d{1,3}(?:,\d{3})*(?:\.\d+)?%?|\d+(?:\.\d+)?%?)/g;
         const parts = text.split(regex);
 
@@ -110,8 +131,17 @@ export function ResumePreview({ data, previewRef }: ResumePreviewProps) {
     };
 
     /**
-     * 檢查是否有內容可顯示
+     * 取得社群連結圖示
      */
+    const getSocialIcon = (type: string) => {
+        switch (type) {
+            case 'github': return Icons.github;
+            case 'linkedin': return Icons.linkedin;
+            case 'website': return Icons.website;
+            default: return Icons.link;
+        }
+    };
+
     const hasContent =
         personalInfo.fullName ||
         personalInfo.email ||
@@ -119,7 +149,8 @@ export function ResumePreview({ data, previewRef }: ResumePreviewProps) {
         educations.length > 0 ||
         skills.length > 0;
 
-    const sortedSkills = sortSkillsByLevel(skills);
+    const sortedSkills = sortByLevel(skills);
+    const sortedLanguages = sortByLevel(languages || []);
 
     return (
         <div className="preview-container">
@@ -134,22 +165,35 @@ export function ResumePreview({ data, previewRef }: ResumePreviewProps) {
                     <div className="resume-layout">
                         {/* 左側深色欄位 */}
                         <aside className="resume-sidebar">
-                            {/* 照片區塊 */}
-                            <div className="sidebar-photo-wrapper">
-                                {personalInfo.photo ? (
-                                    <img
-                                        src={personalInfo.photo}
-                                        alt="大頭照"
-                                        className="resume-photo"
-                                    />
-                                ) : (
-                                    <div className="resume-photo-placeholder">
-                                        <span>{personalInfo.fullName?.charAt(0) || '?'}</span>
-                                    </div>
+                            {/* 照片與姓名職稱 */}
+                            <div className="sidebar-profile">
+                                <div className="sidebar-photo-wrapper">
+                                    {personalInfo.photo ? (
+                                        <img
+                                            src={personalInfo.photo}
+                                            alt="大頭照"
+                                            className="resume-photo"
+                                        />
+                                    ) : (
+                                        <div className="resume-photo-placeholder">
+                                            <span>{personalInfo.fullName?.charAt(0) || '?'}</span>
+                                        </div>
+                                    )}
+                                </div>
+                                <h1 className="sidebar-name">{personalInfo.fullName || '您的姓名'}</h1>
+                                {personalInfo.jobTitle && (
+                                    <p className="sidebar-job-title">{personalInfo.jobTitle}</p>
                                 )}
                             </div>
 
-                            {/* 聯絡資訊區塊 */}
+                            {/* 個人簡介 */}
+                            {personalInfo.summary && (
+                                <section className="sidebar-section">
+                                    <p className="sidebar-summary">{personalInfo.summary}</p>
+                                </section>
+                            )}
+
+                            {/* 聯絡資訊 */}
                             <section className="sidebar-section">
                                 <h2 className="sidebar-section-title">
                                     {Icons.contact}
@@ -177,7 +221,7 @@ export function ResumePreview({ data, previewRef }: ResumePreviewProps) {
                                 </div>
                             </section>
 
-                            {/* 專業技能區塊 */}
+                            {/* 專業技能 */}
                             {sortedSkills.length > 0 && (
                                 <section className="sidebar-section">
                                     <h2 className="sidebar-section-title">
@@ -187,10 +231,76 @@ export function ResumePreview({ data, previewRef }: ResumePreviewProps) {
                                     <div className="skills-grid">
                                         {sortedSkills.map((skill) => (
                                             <div key={skill.id} className="skill-tag">
-                                                <span className="skill-name">{skill.name || '技能'}</span>
-                                                <span className="skill-level-badge">
-                                                    {getLevelLabel(skill.level)}
-                                                </span>
+                                                <span className="skill-name">{skill.name}</span>
+                                                <span className="skill-level-badge">{getLevelLabel(skill.level)}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </section>
+                            )}
+
+                            {/* 語言能力 */}
+                            {sortedLanguages.length > 0 && (
+                                <section className="sidebar-section">
+                                    <h2 className="sidebar-section-title">
+                                        {Icons.language}
+                                        <span>語言能力</span>
+                                    </h2>
+                                    <div className="language-list">
+                                        {sortedLanguages.map((lang) => (
+                                            <div key={lang.id} className="language-item">
+                                                <span className="language-name">{lang.name}</span>
+                                                <div className="language-stars">
+                                                    {[1, 2, 3, 4, 5].map((star) => (
+                                                        <span
+                                                            key={star}
+                                                            className={`star ${star <= lang.level ? 'filled' : ''}`}
+                                                        >
+                                                            ★
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </section>
+                            )}
+
+                            {/* 社群連結 */}
+                            {socialLinks && socialLinks.length > 0 && (
+                                <section className="sidebar-section">
+                                    <h2 className="sidebar-section-title">
+                                        {Icons.link}
+                                        <span>社群連結</span>
+                                    </h2>
+                                    <div className="links-list">
+                                        {socialLinks.map((link) => (
+                                            <div key={link.id} className="link-item">
+                                                {getSocialIcon(link.type)}
+                                                <span className="link-text">{link.label || link.url}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </section>
+                            )}
+
+                            {/* 教育背景 */}
+                            {educations.length > 0 && (
+                                <section className="sidebar-section">
+                                    <h2 className="sidebar-section-title">
+                                        {Icons.education}
+                                        <span>教育背景</span>
+                                    </h2>
+                                    <div className="education-list-sidebar">
+                                        {educations.map((edu) => (
+                                            <div key={edu.id} className="education-item-sidebar">
+                                                <div className="edu-school">{edu.school}</div>
+                                                <div className="edu-degree">
+                                                    {edu.degree} {edu.major && `・${edu.major}`}
+                                                </div>
+                                                {edu.graduationYear && (
+                                                    <div className="edu-year">{edu.graduationYear} 年畢業</div>
+                                                )}
                                             </div>
                                         ))}
                                     </div>
@@ -198,19 +308,8 @@ export function ResumePreview({ data, previewRef }: ResumePreviewProps) {
                             )}
                         </aside>
 
-                        {/* 右側主內容區 */}
+                        {/* 右側主內容區：僅工作經歷 */}
                         <main className="resume-main">
-                            {/* 頂部：姓名與簡介 */}
-                            <header className="resume-header">
-                                <h1 className="resume-name">
-                                    {personalInfo.fullName || '您的姓名'}
-                                </h1>
-                                {personalInfo.summary && (
-                                    <p className="resume-summary">{personalInfo.summary}</p>
-                                )}
-                            </header>
-
-                            {/* 工作經歷區塊 */}
                             {workExperiences.length > 0 && (
                                 <section className="main-section">
                                     <h2 className="main-section-title">
@@ -222,16 +321,11 @@ export function ResumePreview({ data, previewRef }: ResumePreviewProps) {
                                             <div key={exp.id} className="experience-item">
                                                 <div className="experience-header">
                                                     <div className="experience-title">
-                                                        <h3 className="experience-company">
-                                                            {exp.company || '公司名稱'}
-                                                        </h3>
-                                                        <span className="experience-position">
-                                                            {exp.position || '職位'}
-                                                        </span>
+                                                        <h3 className="experience-company">{exp.company}</h3>
+                                                        <span className="experience-position">{exp.position}</span>
                                                     </div>
                                                     <span className="experience-date">
-                                                        {formatDate(exp.startDate)} -{' '}
-                                                        {exp.endDate ? formatDate(exp.endDate) : '至今'}
+                                                        {formatDate(exp.startDate)} - {exp.endDate ? formatDate(exp.endDate) : '至今'}
                                                     </span>
                                                 </div>
                                                 {exp.description && (
@@ -243,37 +337,6 @@ export function ResumePreview({ data, previewRef }: ResumePreviewProps) {
                                                         ))}
                                                     </div>
                                                 )}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </section>
-                            )}
-
-                            {/* 教育背景區塊 */}
-                            {educations.length > 0 && (
-                                <section className="main-section">
-                                    <h2 className="main-section-title">
-                                        {Icons.education}
-                                        <span>教育背景</span>
-                                    </h2>
-                                    <div className="education-list">
-                                        {educations.map((edu) => (
-                                            <div key={edu.id} className="education-item">
-                                                <div className="education-header">
-                                                    <div className="education-title">
-                                                        <h3 className="education-school">
-                                                            {edu.school || '學校名稱'}
-                                                        </h3>
-                                                        <span className="education-degree">
-                                                            {edu.degree} {edu.major && `・ ${edu.major}`}
-                                                        </span>
-                                                    </div>
-                                                    {edu.graduationYear && (
-                                                        <span className="education-date">
-                                                            {edu.graduationYear} 年畢業
-                                                        </span>
-                                                    )}
-                                                </div>
                                             </div>
                                         ))}
                                     </div>
