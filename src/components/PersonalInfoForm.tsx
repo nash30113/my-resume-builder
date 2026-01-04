@@ -116,6 +116,20 @@ export function PersonalInfoForm({ data, onChange }: PersonalInfoFormProps) {
                 </div>
 
                 <div className="form-group">
+                    <label htmlFor="jobTitle" className="form-label">
+                        職稱
+                    </label>
+                    <input
+                        id="jobTitle"
+                        type="text"
+                        className="form-input"
+                        placeholder="例如：資深工程師 / 技術主管"
+                        value={data.jobTitle || ''}
+                        onChange={(e) => onChange({ jobTitle: e.target.value })}
+                    />
+                </div>
+
+                <div className="form-group">
                     <label htmlFor="email" className="form-label">
                         電子郵件 <span className="required">*</span>
                     </label>
